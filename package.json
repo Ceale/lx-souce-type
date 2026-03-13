@@ -5,7 +5,12 @@
   "author": "Ceale",
   "license": "MIT",
   "exports": {
-    "types": "./type.d.ts"
+    ".": {
+      "types": "./type.d.ts"
+    },
+    "./define": {
+      "types": "./define.d.ts"
+    }
   },
   "peerDependencies": {
     "typescript": "^5"

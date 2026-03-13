@@ -4,7 +4,6 @@ import Crypto from "node:crypto"
 /**
  * LX Music 自定义源 API 类型定义
  */
-
 declare namespace LX {
     type Quality = "128k" | "320k" | "flac" | "flac24bit"
     type NetAction = "musicUrl" | "lyric" | "pic"
@@ -137,8 +136,4 @@ declare namespace LX {
         /** 工具方法 */
         utils: LX.Utils
     }
-}
-
-declare global {
-    var lx: LX.API
 }

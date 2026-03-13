@@ -6,18 +6,12 @@
  */
 
 const { EVENT_NAMES, on, send, request, utils, version, env, currentScriptInfo } = globalThis.lx
+const log = console.log
 
-console.log("正在发送 inited 事件...")
+log("正在发送 inited 事件...")
 send(EVENT_NAMES.inited, {
     openDevTools: true,
-    sources: {
-        local: {
-            name: "本地测试源",
-            type: "music",
-            actions: ["musicUrl", "lyric", "pic"],
-            qualitys: []
-        }
-    }
+    sources: {}
 })
 
 console.log("正在发送 inited 事件...")
@@ -25,7 +19,6 @@ on(EVENT_NAMES.request, ({ source, action, info }) => {
     log(source, action, info)
 })
 
-const log = console.log
 log("LX_API_TEST")
 
 log(utils.buffer.from("str", "utf8"))
