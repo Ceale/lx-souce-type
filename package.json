@@ -12,6 +12,11 @@
       "types": "./define.d.ts"
     }
   },
+  "files": [
+    "README.md",
+    "index.d.ts",
+    "define.d.ts"
+  ],
   "peerDependencies": {
     "typescript": "^5"
   },
