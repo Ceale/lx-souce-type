@@ -1,5 +1,5 @@
-import Zlib from "node:zlib"
-import Crypto from "node:crypto"
+import type Zlib from "node:zlib"
+import type Crypto from "node:crypto"
 
 /**
  * LX Music 自定义源 API 类型定义
@@ -12,11 +12,19 @@ export declare namespace LX {
     export interface MusicInfo {
         name: string
         singer: string
+        interval: string
+
         source: SupportPlatform
         songmid: string
-        interval: string
-        albumName: string
+
         img: string
+        albumName: string
+
+        /** 仅限酷狗 */
+        hash?: string
+        /** 仅限咪咕 */
+        copyrightId?: string
+        
         [key: string]: any
     }
 
@@ -40,7 +48,7 @@ export declare namespace LX {
     export interface MRequestResponse {
         statusCode: number
         statusMessage: string
-        headers: Record<string, string>
+        headers: Record<string, string | string[] | undefined>
         bytes?: number,
         raw?: Uint8Array,
         body: any
@@ -61,6 +69,10 @@ export declare namespace LX {
     export interface UpdateAlertPayload {
         log: string
         updateUrl?: string
+    }
+
+    export interface ERequestHandler {
+        (params: ERequestParams): Promise<ERequestResult>
     }
 
     export interface ERequestParams {
@@ -122,15 +134,15 @@ export declare namespace LX {
         /** 常量事件名 */
         EVENT_NAMES: EVENT_NAMES
         /** 注册事件监听 */
-        on(eventName: EVENT_NAMES["request"], handler: (params: ERequestParams) => Promise<ERequestResult>): void
+        on(eventName: EVENT_NAMES["request"], handler: ERequestHandler): Promise<void>
         /** 发送事件 */
-        send(eventName: EVENT_NAMES["inited"], data: InitedPayload): void
-        send(eventName: EVENT_NAMES["updateAlert"], data: UpdateAlertPayload): void
+        send(eventName: EVENT_NAMES["inited"], data: InitedPayload): Promise<void>
+        send(eventName: EVENT_NAMES["updateAlert"], data: UpdateAlertPayload): Promise<void>
         /** HTTP 请求方法 */
         request(
             url: string,
             options: MRequestOptions,
-            callback: (err: Error | null, resp: MRequestResponse, body: any) => void
+            callback: (err: any, resp: MRequestResponse | null, body: any) => void
         ): () => void
 
         /** 工具方法 */
