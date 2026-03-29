@@ -1,5 +1,5 @@
+import type { WithImplicitCoercion } from "node:buffer"
 import type Zlib from "node:zlib"
-import type Crypto from "node:crypto"
 
 /**
  * LX Music 自定义源 API 类型定义
@@ -35,7 +35,7 @@ export declare namespace LX {
         lxlyric?: string | null
     }
 
-    export interface MRequestOptions {
+    export interface RequestOptions {
         /** 默认为 Get */
         method?: string
         headers?: Record<string, string>
@@ -45,7 +45,7 @@ export declare namespace LX {
         timeout?: number
     }
 
-    export interface MRequestResponse {
+    export interface RequestResponse {
         statusCode: number
         statusMessage: string
         headers: Record<string, string | string[] | undefined>
@@ -71,11 +71,11 @@ export declare namespace LX {
         updateUrl?: string
     }
 
-    export interface ERequestHandler {
-        (params: ERequestParams): Promise<ERequestResult>
+    export interface Provider {
+        (params: ProviderParams): Promise<ProviderResult>
     }
 
-    export interface ERequestParams {
+    export interface ProviderParams {
         source: SupportPlatform
         action: NetAction
         info: {
@@ -84,7 +84,7 @@ export declare namespace LX {
         }
     }
     
-    export type ERequestResult = string | {
+    export type ProviderResult = string | {
         lyric: string,
         tlyric: string | null
         rlyric: string | null
@@ -125,6 +125,27 @@ export declare namespace LX {
         rawScript: string
     }
 
+    export interface RequestCallback {
+        (err: null, resp: RequestResponse | null, body: any): void
+    }
+
+    export interface OnEvent {
+        (eventName: EVENT_NAMES["request"], handler: Provider): Promise<void>
+    }
+
+    export interface SendEvent {
+        (eventName: EVENT_NAMES["inited"], data: InitedPayload): Promise<void>
+        (eventName: EVENT_NAMES["updateAlert"], data: UpdateAlertPayload): Promise<void>
+    }
+
+    export interface Request {
+        (
+            url: string,
+            options: RequestOptions,
+            callback: RequestCallback
+        ): () => void
+    }
+
     export interface API {
         /** API 版本号 */
         version: "2.0.0"
@@ -134,18 +155,12 @@ export declare namespace LX {
         /** 常量事件名 */
         EVENT_NAMES: EVENT_NAMES
         /** 注册事件监听 */
-        on(eventName: EVENT_NAMES["request"], handler: ERequestHandler): Promise<void>
+        on: OnEvent
         /** 发送事件 */
-        send(eventName: EVENT_NAMES["inited"], data: InitedPayload): Promise<void>
-        send(eventName: EVENT_NAMES["updateAlert"], data: UpdateAlertPayload): Promise<void>
+        send: SendEvent
         /** HTTP 请求方法 */
-        request(
-            url: string,
-            options: MRequestOptions,
-            callback: (err: any, resp: MRequestResponse | null, body: any) => void
-        ): () => void
-
+        request: Request
         /** 工具方法 */
-        utils: LX.Utils
+        utils: Utils
     }
 }
