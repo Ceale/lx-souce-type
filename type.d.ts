@@ -126,7 +126,7 @@ export declare namespace LX {
     }
 
     export interface RequestCallback {
-        (err: null, resp: RequestResponse | null, body: any): void
+        (err: any, resp: RequestResponse | null, body: any): void
     }
 
     export interface OnEvent {
