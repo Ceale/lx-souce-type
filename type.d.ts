@@ -88,9 +88,13 @@ export declare namespace LX {
         updateUrl?: string
     }
 
+    export interface EventPayloadMap {
+        "inited": InitedPayload
+        "updateAlert": UpdateAlertPayload
+    }
+
     export interface SendEvent {
-        (eventName: EVENT_NAMES["inited"], data: InitedPayload): Promise<void>
-        (eventName: EVENT_NAMES["updateAlert"], data: UpdateAlertPayload): Promise<void>
+        <K extends keyof EventPayloadMap>(eventName: K, payload: EventPayloadMap[K]): Promise<void>
     }
 
     export interface RequestOptions {
@@ -160,3 +164,14 @@ export declare namespace LX {
         utils: Utils
     }
 }
+
+const a = {} as LX.SendEvent
+
+a("inited", {
+    
+})
+
+a("updateAlert", {
+    log: "log",
+    updateUrl: "updateUrl"
+})
