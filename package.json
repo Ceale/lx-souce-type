@@ -1,10 +1,13 @@
 {
   "name": "lx-source-type",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "type": "module",
   "author": "Ceale",
   "license": "MIT",
   "repository": "https://github.com/Ceale/lx-source-type.git",
+  "scripts": {
+    "check": "tsgo"
+  },
   "exports": {
     ".": {
       "types": "./type.d.ts"
@@ -18,10 +21,8 @@
     "type.d.ts",
     "define.d.ts"
   ],
-  "peerDependencies": {
-    "typescript": "^5"
-  },
   "devDependencies": {
-    "@types/node": "^25.5.0"
+    "@types/node": "^25.5.0",
+    "@typescript/native-preview": "^7.0.0-dev.20260419.1"
   }
 }

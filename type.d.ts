@@ -164,14 +164,3 @@ export declare namespace LX {
         utils: Utils
     }
 }
-
-const a = {} as LX.SendEvent
-
-a("inited", {
-    
-})
-
-a("updateAlert", {
-    log: "log",
-    updateUrl: "updateUrl"
-})
