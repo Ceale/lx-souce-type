@@ -72,7 +72,7 @@ export declare namespace LX {
     }
 
     export interface SourceInfo {
-        name: string
+        name?: string
         type: "music"
         actions: NetAction[]
         qualitys: Quality[]
